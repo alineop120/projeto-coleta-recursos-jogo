@@ -1,36 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import PlayerMovement from './components/PlayerMovement';
-import GameMap from './components/map/GameMap';
-import { isCellWalkable, getCellType } from './components/map/mapUtils';
-import NPCs from './components/threads/NPCs'; // importar o novo componente
+import PlayerMovement from './components/Player/PlayerMovement';
+import GameMap from './components/GameMap/GameMap';
+import { isCellWalkable, getCellType } from './components/GameMap/mapUtils';
+import NPCs from './components/NPCs/NPCs';
 
 function App() {
     const [jogador, setJogador] = useState(null);
     const [carregando, setCarregando] = useState(true);
     const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
+    const [npcs, setNpcs] = useState({});
+    const [localAtual, setLocalAtual] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/estado')
-            .then(response => {
-                setJogador(response.data.jogador);
-                setPlayerPos(response.data.jogador.posicao);
-                setCarregando(false);
-            })
-            .catch(error => {
-                console.error("Erro ao buscar estado:", error);
-                setCarregando(false);
-            });
-    }, []);
+        const fetchEstado = () => {
+            axios.get('http://localhost:5000/estado')
+                .then(response => {
+                    setJogador(response.data.jogador);
+                    setNpcs({
+                        npc1: response.data.npc1,
+                        npc2: response.data.npc2
+                    });
+                    //setPlayerPos(response.data.jogador.posicao);
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar estado:", error);
+                });
+        };
 
-    const[localAtual, setLocalAtual] = useState(null);
+        fetchEstado(); // primeira chamada
+        const intervalo = setInterval(fetchEstado, 1000); // uma por segundo
+
+        return () => clearInterval(intervalo); // limpar ao desmontar
+    }, []); // ← array de dependências vazio!
 
     const handlePositionChange = (newPos) => {
         const cellX = Math.floor(newPos.x / 40);
         const cellY = Math.floor(newPos.y / 40);
 
         if (!isCellWalkable(cellX, cellY)) return;
+
+        // Verifica se algum NPC já está nessa posição
+        const temColisaoComNPC = Object.values(npcs).some(npc =>
+            npc.posicao.x === newPos.x && npc.posicao.y === newPos.y
+        );
+        if (temColisaoComNPC) return;
 
         setPlayerPos(newPos);
 
@@ -72,8 +87,8 @@ function App() {
                 marginBottom: 10
             }}>
                 <GameMap playerPos={playerPos} />
-                <PlayerMovement onPositionChange={handlePositionChange} />
-                <NPCs npcs={NPCs} />
+                <PlayerMovement playerPos={playerPos} onPositionChange={handlePositionChange} />
+                <NPCs npcs={npcs} />
             </div>
 
             <h2>Posição Atual</h2>
