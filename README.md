@@ -8,22 +8,37 @@ Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interag
 
 ## 🗺️ Estrutura do Projeto
 ```bash
-projeto-jogo-recursos-threads/
+projeto-coleta-recursos-jogo/
+│
 ├── backend/
+│ ├── __pycache__
+│ ├── .venv
 │ ├── app.py # Servidor Flask e lógica backend
 │ ├── npc.py # Threads e controle dos NPCs
+│ ├── models.py
+│ ├── services.py
+│ ├── utils.py
 │ └── requirements.txt
+│
 ├── frontend/
 │ ├── public/
 │ ├── src/
 │ │ ├── components/
-│ │ │ ├── map/
-│ │ │ ├── threads/
-│ │ │ │ └── NPCs.js # Componente para renderizar NPCs
+│ │ │ ├── GameMap/
+│ │ │ ├── NPCs/
+│ │ │ │ ├── NPCs.jsx
+│ │ │ │ └── NPCManager.js
+│ │ │ ├── Player/
+│ │ │ │ ├── Player.jsx
+│ │ │ │ └── PlayerMovement.js
+│ │ ├── services/
+│ │ │ └── api.jsx
 │ │ ├── PlayerMovement.js
 │ │ ├── App.jsx
 │ │ └── index.js
 │ └── package.json
+│
+├── .gitignore
 └── README.md # Este arquivo
 ```
 
@@ -40,15 +55,17 @@ projeto-jogo-recursos-threads/
 ### Backend
 
 ```bash
-python -m venv venv
-source venv/bin/activate   # Linux/macOS
-venv\Scripts\activate      # Windows
+cd backend
+python -m venv .venv
+source .venv/bin/activate   # Linux/macOS
+.venv\Scripts\activate      # Windows
 pip install -r requirements.txt
 python app.py
 ```
 
 ### Frontend
 ```bash
+cd frontend
 npm install
 npm start
 ```
