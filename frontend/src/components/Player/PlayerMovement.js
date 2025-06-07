@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-export default function PlayerMovement({ onPositionChange }) {
-    const [pos, setPos] = useState({ x: 0, y: 0 });
+export default function PlayerMovement({ playerPos, onPositionChange }) {
+    const [pos, setPos] = useState(playerPos);
+
+    useEffect(() => {
+        setPos(playerPos);
+    }, [playerPos]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
