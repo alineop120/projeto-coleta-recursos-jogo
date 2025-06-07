@@ -4,6 +4,3 @@ backend/__pycache__/
 
 # Node
 frontend/node_modules/
-
-# Server
-server/node_modules/
