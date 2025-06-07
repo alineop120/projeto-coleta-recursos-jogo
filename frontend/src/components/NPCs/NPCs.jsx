@@ -13,8 +13,8 @@ export default function NPCs({ npcs }) {
                         height: '40px',
                         backgroundColor: 'hotpink',
                         borderRadius: '4px',
-                        left: data.posicao.x,
-                        top: data.posicao.y,
+                        left: `${data.posicao.x}px`,
+                        top: `${data.posicao.y}px`,
                         transition: 'left 0.5s, top 0.5s'
                     }}
                     title={nome}
