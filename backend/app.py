@@ -3,6 +3,7 @@ import random
 import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from npc import NPCManager
 
 # Estado do jogo
 estado_jogo = {
@@ -22,7 +23,6 @@ estado_jogo = {
 
 campo_lock = threading.Lock()
 
-from npc import NPCManager
 npc_manager = NPCManager(estado_jogo, campo_lock)
 npc_manager.start()
 
