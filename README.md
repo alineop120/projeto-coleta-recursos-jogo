@@ -1,10 +1,22 @@
 # 🎮 Jogo de Coleta de Recursos com Threads
 
-Jogo simples com NPCs controlados por threads no backend Python e frontend em React.
+Um jogo multiplayer simples com NPCs inteligentes e movimentação concorrente usando Python, Flask e React.
 
 ## 📌 Objetivo
 
 Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interage com NPCs e enfrenta inimigos, que são controlados por threads no backend para movimentação e ações concorrentes.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Python 3.11**
+- **Flask** – API e controle do jogo
+- **ReactJS** – Frontend e interface
+- **Threading e Semáforos** – Controle de concorrência no backend
+- **Axios** – Requisições assíncronas no frontend
+
+## 📸 Preview
+
+![Demonstração do jogo](./assets/demo.gif)
 
 ## 🗺️ Estrutura do Projeto
 ```bash
@@ -49,6 +61,18 @@ projeto-coleta-recursos-jogo/
 - Mapa interativo com obstáculos, guildas e lojas
 - Sincronização em tempo real via chamadas periódicas à API
 - Controle de estado com locks para evitar conflitos no backend
+
+## ⚙️ Concor­rência no Backend
+
+O backend usa **threads** para simular NPCs e inimigos de forma independente, com atualizações periódicas a cada segundo. 
+
+Para evitar condições de corrida, o projeto utiliza:
+
+- `threading.Thread` para criar NPCs autônomos;
+- `threading.Lock` para sincronizar acesso a recursos compartilhados;
+- `threading.Semaphore` para controlar o número de NPCs em regiões limitadas do mapa.
+
+Esse modelo garante que múltiplos NPCs possam atuar simultaneamente sem corromper o estado global do jogo.
 
 ## 🚀 Como rodar
 
