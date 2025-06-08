@@ -23,26 +23,36 @@ Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interag
 projeto-coleta-recursos-jogo/
 │
 ├── backend/
-│ ├── __pycache__
-│ ├── .venv
-│ ├── app.py # Servidor Flask e lógica backend
-│ ├── npc.py # Threads e controle dos NPCs
+│ ├── routes/
+│ │ ├── npc.py
+│ │ └── player.py
+│ ├── tests/
+│ │ └── test_player_routes.py
+│ ├── app.py
 │ ├── models.py
+│ ├── requirements.txt
 │ ├── services.py
-│ ├── utils.py
-│ └── requirements.txt
+│ └── utils.py
 │
 ├── frontend/
 │ ├── public/
 │ ├── src/
 │ │ ├── components/
-│ │ │ ├── GameMap/
+│ │ │ ├── Maps/
+│ │ │ │ ├── Locations/
+│ │ │ │ │ ├── Guilda.jsx
+│ │ │ │ │ └── Loja.jsx
+│ │ │ │ ├── GameMap.jsx
+│ │ │ │ ├── mapaData.js
+│ │ │ │ └── mapaUtils.js
 │ │ │ ├── NPCs/
 │ │ │ │ ├── NPCs.jsx
 │ │ │ │ └── NPCManager.js
 │ │ │ ├── Player/
 │ │ │ │ ├── Player.jsx
 │ │ │ │ └── PlayerMovement.js
+│ │ │ ├── Resources/
+│ │ │ │ └── Resources.jsx
 │ │ ├── services/
 │ │ │ └── api.jsx
 │ │ ├── PlayerMovement.js
