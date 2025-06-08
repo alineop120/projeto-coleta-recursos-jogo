@@ -1,24 +1,29 @@
 import React from 'react';
 
 export default function NPCs({ npcs }) {
-    if (!npcs) return null;
-
     return (
         <>
-            {Object.entries(npcs).map(([nome, data]) => (
-                <div key={nome}
+            {Object.entries(npcs).map(([nome, npc]) => (
+                <div
+                    key={nome}
                     style={{
                         position: 'absolute',
                         width: '40px',
                         height: '40px',
-                        backgroundColor: 'hotpink',
-                        borderRadius: '4px',
-                        left: `${data.posicao.x}px`,
-                        top: `${data.posicao.y}px`,
-                        transition: 'left 0.5s, top 0.5s'
+                        backgroundColor: 'pink',
+                        borderRadius: '50%',
+                        left: npc.posicao.x,
+                        top: npc.posicao.y,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        transition: 'left 0.2s, top 0.2s',
                     }}
-                    title={nome}
-                />
+                >
+                    {nome.toUpperCase()}
+                </div>
             ))}
         </>
     );
