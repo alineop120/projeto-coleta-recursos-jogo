@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 import threading
 import random
 import time
+from services import coletar_recurso
 
 npc_routes = Blueprint("npc_routes", __name__)
 
@@ -33,6 +34,7 @@ class NPC(threading.Thread):
                 novo_y = min(max(pos["y"] + random.choice([-self.step, 0, self.step]), 0), self.max_y)
                 self.estado_jogo[self.nome]["posicao"] = {"x": novo_x, "y": novo_y}
                 print(f"{self.nome} se moveu para ({novo_x}, {novo_y})")
+                coletar_recurso(self.estado_jogo, self.nome)
             time.sleep(1)
 
     def parar(self):
