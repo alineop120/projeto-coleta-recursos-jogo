@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import './styles/App.css';
 
-import PlayerMovement from './components/Player/PlayerMovement';
+import Player from './components/Player/Player';
 import GameMap from './components/Maps/GameMap';
 import { isCellWalkable, getCellType } from './components/Maps/mapUtils';
 import NPCs from './components/NPCs/NPCs';
@@ -36,27 +36,31 @@ function App() {
             });
     };
 
-    useEffect(() => {
-        fetchEstado();
-        const intervalo = setInterval(fetchEstado, 1000);
-        return () => clearInterval(intervalo);
-    }, []);
-
     const coletarRecurso = (recurso) => {
         axios.post('http://localhost:5000/coletar', {
             x: recurso.x,
             y: recurso.y
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
             .then(() => {
-                fetchEstado(); // Atualiza a lista após coleta
+                fetchEstado(); // Atualiza dados após coleta
             })
             .catch(err => {
                 console.error("Erro ao coletar recurso:", err);
             });
     };
 
+    useEffect(() => {
+        fetchEstado();
+        const intervalo = setInterval(fetchEstado, 1000);
+        return () => clearInterval(intervalo);
+    }, []);
+
+    // Função só para atualizar localAtual quando a posição muda
     const handlePositionChange = (newPos) => {
-        console.log('Enviando para o backend:', newPos);
         const cellX = Math.floor(newPos.x / 40);
         const cellY = Math.floor(newPos.y / 40);
 
@@ -74,20 +78,14 @@ function App() {
         if (cellType === 'G') setLocalAtual('guilda');
         else if (cellType === 'L') setLocalAtual('loja');
         else setLocalAtual(null);
-
-        axios.post('http://localhost:5000/mover', {
-            x: newPos.x,
-            y: newPos.y
-        });
-
     };
 
     if (carregando) return <p>Carregando...</p>;
 
     return (
         <div className="app-container">
-            <div className="sidebar">
-                <div>
+            <div className="header">
+                <div className="status-jogador">
                     <h1>Status do Jogador</h1>
                     {jogador ? (
                         <div>
@@ -101,23 +99,28 @@ function App() {
                     )}
                 </div>
 
-                <div>
+                <div className="interacoes">
                     {localAtual === 'loja' && <Loja onCompraRealizada={fetchEstado} />}
                     {localAtual === 'guilda' && <Guilda />}
                 </div>
             </div>
 
-            <div className="game-area">
-                <div className="game-header">
+            <div className="main-content">
+                <div className="area-jogo-header">
                     <h2>Área de Jogo</h2>
-                    <div>
+                    <div className="posicao-atual">
                         <strong>Posição Atual:</strong> X: {playerPos.x} | Y: {playerPos.y}
                     </div>
                 </div>
 
-                <div className="game-map-container">
+                <div className="area-jogo">
                     <GameMap playerPos={playerPos} />
-                    <PlayerMovement playerPos={playerPos} onPositionChange={handlePositionChange} />
+                    <Player
+                        playerPos={playerPos}
+                        setPlayerPos={setPlayerPos}
+                        recursos={recursos}
+                        fetchEstado={fetchEstado}
+                    />
                     <NPCs npcs={npcs} />
                     <Resources recursos={recursos} onColetar={coletarRecurso} />
                 </div>
