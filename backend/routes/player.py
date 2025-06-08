@@ -1,14 +1,17 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, app, request, jsonify
 from services import coletar_recurso, trocar_recursos, comprar_item
 from utils import validar_posicao
 from threading import Lock
 
 # Blueprint de rotas do jogador
-player_routes = Blueprint("player_routes", __name__)
+player_routes = Blueprint('player_routes', __name__)
 
 # Estado do jogo e lock compartilhado
 estado_jogo = {}
 campo_lock = Lock()
+
+def obter_estado_e_lock():
+    return estado_jogo, campo_lock
 
 # Função para configurar estado inicial do jogo
 def configurar_jogo():
@@ -53,6 +56,8 @@ def obter_estado():
 # Rota: Coletar recurso
 @player_routes.route('/coletar', methods=['POST'])
 def coletar():
+    print("Recebido no /coletar:", request.data)
+    print("JSON recebido:", request.json)
     dados = request.json
     x = dados.get("x")
     y = dados.get("y")
