@@ -1,12 +1,12 @@
 import pytest
 from flask import Flask
-from routes.player import player_routes, configurar_jogo
-
 import sys
 import os
 
-# Adiciona a pasta backend ao path para achar o módulo routes
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+import pytest
+from routes.player import player_routes, configurar_jogo
 
 @pytest.fixture
 def app():
