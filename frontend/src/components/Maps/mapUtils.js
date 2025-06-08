@@ -1,4 +1,3 @@
-// src/components/map/mapUtils.js
 import { mapa } from './mapData';
 
 export function isCellWalkable(x, y) {

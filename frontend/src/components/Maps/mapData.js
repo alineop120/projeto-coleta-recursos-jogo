@@ -1,4 +1,3 @@
-// src/components/map/mapData.js
 export const mapa = [
     ['.', '.', '.', 'N', '.', '.', '.', '.', 'G', '.'],
     ['.', 'X', '.', '.', '.', '.', 'L', '.', '.', '.'],
