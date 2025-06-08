@@ -19,6 +19,7 @@ function Resources({ recursos, onColetar }) {
                         cursor: 'pointer',
                     }}
                     onClick={() => onColetar(recurso)}
+                    title={`Recurso em (${recurso.x}, ${recurso.y})`}
                 >
                     💎
                 </div>
