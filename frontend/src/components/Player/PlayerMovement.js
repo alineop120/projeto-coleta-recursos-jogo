@@ -10,10 +10,10 @@ export default function PlayerMovement({ playerPos, onPositionChange }) {
     useEffect(() => {
         const handleKeyDown = (e) => {
             setPos(prev => {
-                const step = 10;
+                const step = 40;
                 const size = 40;
-                const maxX = 400 - size;
-                const maxY = 400 - size;
+                const maxX = 400;
+                const maxY = 400;
 
                 let newPos;
                 switch (e.key.toLowerCase()) {
@@ -32,6 +32,8 @@ export default function PlayerMovement({ playerPos, onPositionChange }) {
                     default:
                         return prev;
                 }
+                
+                console.log('Movendo para:', newPos);
 
                 if (onPositionChange) {
                     onPositionChange(newPos);
