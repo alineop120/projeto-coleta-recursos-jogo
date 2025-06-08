@@ -23,9 +23,14 @@ def configurar_jogo():
             "espada": False,
             "posicao": {"x": 0, "y": 0}
         },
-        "npc1": {"ativo": True, "posicao": {"x": 0, "y": 0}},
-        "npc2": {"ativo": True, "posicao": {"x": 40, "y": 40}},
-        "campo": 0
+        "npc1": {"ativo": True, "posicao": {"x": 0, "y": 0}, "recursos": 0},
+        "npc2": {"ativo": True, "posicao": {"x": 40, "y": 40}, "recursos": 0},
+        "recursos": [
+            {"x": 120, "y": 160},
+            {"x": 200, "y": 80},
+            {"x": 80, "y": 240}
+        ],
+        "campo": 0,
     }
     return estado_jogo
 
@@ -48,10 +53,14 @@ def obter_estado():
 # Rota: Coletar recurso
 @player_routes.route('/coletar', methods=['POST'])
 def coletar():
-    with campo_lock:
-        coletar_recurso(estado_jogo)
-    return jsonify(estado_jogo)
+    dados = request.json
+    x = dados.get("x")
+    y = dados.get("y")
 
+    with campo_lock:
+        coletar_recurso(estado_jogo, nome_entidade="jogador", x=x, y=y)
+
+    return jsonify(estado_jogo)
 
 # Rota: Trocar recurso por moedas
 @player_routes.route('/trocar', methods=['POST'])
@@ -74,11 +83,14 @@ def comprar():
 @player_routes.route('/mover', methods=['POST'])
 def mover():
     dados = request.json
+    print("Dados recebidos no /mover:", dados)  # Adicione essa linha para debug
+
     x = dados.get('x')
     y = dados.get('y')
 
     if x is None or y is None or not validar_posicao(x, y):
-        return jsonify({"erro": "Posição inválida"}), 400
+        print("Validação falhou: x, y =", x, y)  # Debug
+        return jsonify({"erro": "Posição inválida"}), 200
 
     with campo_lock:
         estado_jogo["jogador"]["posicao"] = {"x": x, "y": y}
@@ -87,3 +99,7 @@ def mover():
         "mensagem": "Posição atualizada",
         "posicao": estado_jogo["jogador"]["posicao"]
     })
+
+# Exporta para uso em outras rotas
+def obter_estado_e_lock():
+    return estado_jogo, campo_lock
