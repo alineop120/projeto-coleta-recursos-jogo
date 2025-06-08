@@ -11,14 +11,14 @@ class NPC(threading.Thread):
         self.max_x = max_x
         self.max_y = max_y
         self.step = step
-        self.ativo = True
+        self._stop_event = threading.Event()
 
         with self.campo_lock:
             if nome not in self.estado_jogo:
                 self.estado_jogo[nome] = {"ativo": True, "posicao": {"x": 0, "y": 0}}
 
     def run(self):
-        while self.ativo and self.estado_jogo[self.nome]["ativo"]:
+        while not self._stop_event.is_set() and self.estado_jogo[self.nome]["ativo"]:
             with self.campo_lock:
                 pos = self.estado_jogo[self.nome]["posicao"]
                 novo_x = min(max(pos["x"] + random.choice([-self.step, 0, self.step]), 0), self.max_x)
@@ -27,10 +27,16 @@ class NPC(threading.Thread):
                 self.estado_jogo[self.nome]["posicao"] = {"x": novo_x, "y": novo_y}
                 print(f"{self.nome} se moveu para ({novo_x}, {novo_y})")
 
-            time.sleep(1)
+            self._stop_event.wait(timeout=1)
 
     def parar(self):
-        self.ativo = False
+        self._stop_event.set()
+
+    def posicao_ocupada(self, x, y):
+        for npc_nome, dados in self.estado_jogo.items():
+            if dados["posicao"]["x"] == x and dados["posicao"]["y"] == y:
+                return True
+        return False
 
 class NPCManager:
     def __init__(self, estado_jogo, campo_lock):
