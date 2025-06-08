@@ -1,3 +1,6 @@
+import random
+import threading
+import time
 from models.resources import recursos_no_mapa
 from threading import Lock
 
@@ -46,3 +49,19 @@ def comprar_item(estado_jogo, item):
         return estado_jogo, True
 
     return estado_jogo, False  # sem moedas suficientes
+
+def adicionar_recurso_periodicamente(estado_jogo, intervalo_segundos=15, max_x=420, max_y=438):
+    def task():
+        while True:
+            with recurso_lock:
+                novo_recurso = {
+                    "x": random.randint(0, max_x // 40) * 40,
+                    "y": random.randint(0, max_y // 40) * 40
+                }
+                if novo_recurso not in estado_jogo["recursos"]:
+                    estado_jogo["recursos"].append(novo_recurso)
+                    print(f"Novo recurso adicionado em {novo_recurso}")
+            time.sleep(intervalo_segundos)
+
+    thread = threading.Thread(target=task, daemon=True)
+    thread.start()
