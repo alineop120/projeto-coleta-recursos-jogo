@@ -1,0 +1,9 @@
+body {
+    background-color: red;
+    color: white;
+    display: none;
+}
+
+#root {
+    display: none;
+}
