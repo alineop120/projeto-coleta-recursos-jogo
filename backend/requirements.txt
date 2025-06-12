@@ -1,18 +1,3 @@
-# Flask core
-Flask==2.3.3
-
-# CORS support (útil para conectar o frontend React com o backend Flask)
-Flask-Cors==4.0.0
-
-# Gerenciamento de variáveis de ambiente (se usar .env)
-python-dotenv==1.0.1
-
-# Dependência para requisições HTTP (caso use API externas)
-requests==2.31.0
-
-# Se usar SQLAlchemy (não mencionou, mas comum)
-# SQLAlchemy==2.0.19
-
-# Outras libs que podem ser úteis
-# gunicorn==20.1.0    # para deploy em produção
-pytest==7.4.0       # para testes
+flask
+flask-cors
+eventlet
