@@ -1,30 +1,29 @@
 from flask import Flask
 from flask_cors import CORS
+import threading
 
-from routes.player import player_routes, obter_estado_e_lock
-from routes.npc import npc_routes, configurar_npcs, NPCManager
+from routes.player_routes import player_bp
+from routes.npc_routes import npc_bp
 
-from services import adicionar_recurso_periodicamente
+from routes.npc_routes import npc_bp
+from core.npcs.npc_threads import iniciar_threads_npc
+
+from routes.recurso_routes import recurso_bp
+from core.recursos.recurso_threads import iniciar_thread_recursos
+
+from routes.loja_guilda_routes import loja_guilda_bp
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
-# Registra as blueprints
-app.register_blueprint(player_routes, url_prefix='/player')
-app.register_blueprint(npc_routes, url_prefix='/npc')
+# Registrando Blueprints (rotas)
+app.register_blueprint(player_bp, url_prefix='/player')
+app.register_blueprint(npc_bp, url_prefix='/npc')
+app.register_blueprint(recurso_bp, url_prefix='/recursos')  # corrigido
+app.register_blueprint(loja_guilda_bp, url_prefix='/loja')  # adicionar se necessário
 
-# Obter estado e lock do módulo do jogador
-estado_jogo, campo_lock = obter_estado_e_lock()
-
-# Injetar estado nos NPCs
-configurar_npcs(estado_jogo)
-
-# Iniciar NPCs
-npc_manager = NPCManager(estado_jogo, campo_lock)
-npc_manager.start()
-
-# supondo que estado_jogo já esteja criado
-adicionar_recurso_periodicamente(estado_jogo)
+# Inicia threads de NPCs
+threading.Thread(target=iniciar_threads_npc, daemon=True).start()
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
