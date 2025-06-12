@@ -100,6 +100,7 @@ python app.py
 ### Frontend
 ```bash
 cd frontend
+npm init -y
 npm install
 npm start
 ```
