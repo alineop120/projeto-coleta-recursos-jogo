@@ -19,47 +19,81 @@ Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interag
 ![Demonstração do jogo](./assets/demo.gif)
 
 ## 🗺️ Estrutura do Projeto
-```bash
+```yaml
 projeto-coleta-recursos-jogo/
 │
 ├── backend/
+│ ├── core/
+│ │ ├── economia/
+│ │ │ ├── guilda_service.py
+│ │ │ └── loja_service.py
+│ │ ├── enemies/
+│ │ │ ├── enemy_manager.py
+│ │ │ └── enemy_threads.py
+│ │ ├── mapa/
+│ │ │ ├── map_data.py
+│ │ │ └── map_utils.py
+│ │ ├── npcs/
+│ │ │ ├── npc_behavior.py
+│ │ │ ├── npc_manager.py
+│ │ │ └── npc_threads.py
+│ │ ├── players/
+│ │ │ ├── player_manager.py
+│ │ │ └── player_threads.py
+│ │ └── recursos/
+│ │ │ ├── recurso_manager.py
+│ │ │ └── recurso_threads.py
 │ ├── routes/
-│ │ ├── npc.py
-│ │ └── player.py
+│ │ ├── enemy_routes.py
+│ │ ├── loja_guilda_routes.py
+│ │ ├── npc_routes.py
+│ │ ├── player_routes.py
+│ │ └── recurso_routes.py
+│ ├── services/
+│ │ └── socket_service.py
 │ ├── tests/
+│ │ ├── test_npc_routes.py
 │ │ └── test_player_routes.py
 │ ├── app.py
-│ ├── models.py
-│ ├── requirements.txt
-│ ├── services.py
-│ └── utils.py
+│ └── requirements.txt
 │
 ├── frontend/
 │ ├── public/
 │ ├── src/
 │ │ ├── components/
-│ │ │ ├── Maps/
-│ │ │ │ ├── Locations/
-│ │ │ │ │ ├── Guilda.jsx
-│ │ │ │ │ └── Loja.jsx
+│ │ │ ├── GameMap/
+│ │ │ │ ├── GameMap.css
 │ │ │ │ ├── GameMap.jsx
-│ │ │ │ ├── mapaData.js
 │ │ │ │ └── mapaUtils.js
+│ │ │ ├── LojaGuilda/
+│ │ │ │ ├── Guilda.jsx
+│ │ │ │ └── Loja.jsx
 │ │ │ ├── NPCs/
-│ │ │ │ ├── NPCs.jsx
-│ │ │ │ └── NPCManager.js
+│ │ │ │ ├── NPCsList.jsx
+│ │ │ │ └── NPCStatus.js
 │ │ │ ├── Player/
-│ │ │ │ ├── Player.jsx
-│ │ │ │ └── PlayerMovement.js
+│ │ │ │ ├── PlayerMovement.jsx
+│ │ │ │ └── PlayerStatus.jsx
 │ │ │ ├── Resources/
 │ │ │ │ └── Resources.jsx
+│ │ │ ├── UI/
+│ │ │ │ └── Modal.jsx
+│ │ ├── context/
+│ │ │ └── gameContext.jsx
+│ │ ├── hooks/
+│ │ │ └── useGameLogic.js
 │ │ ├── services/
 │ │ │ └── api.jsx
-│ │ ├── PlayerMovement.js
+│ │ ├── styles/
+│ │ │ └── variables.css
 │ │ ├── App.jsx
 │ │ └── index.js
-│ └── package.json
+│ ├── .babelrc
+│ ├── package-lock.json
+│ ├── package.json
+│ └── webpack.config.js
 │
+├── .gitattributes
 ├── .gitignore
 └── README.md # Este arquivo
 ```
