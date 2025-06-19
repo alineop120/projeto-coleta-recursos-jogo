@@ -2,6 +2,12 @@
 
 Um jogo multiplayer simples com NPCs inteligentes e movimentação concorrente usando Python, Flask e React.
 
+![Status do Projeto](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Flask](https://img.shields.io/badge/Flask-2.3.x-lightgrey)
+![React](https://img.shields.io/badge/React-18.x-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 ## 📌 Objetivo
 
 Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interage com NPCs e enfrenta inimigos, que são controlados por threads no backend para movimentação e ações concorrentes.
@@ -17,6 +23,17 @@ Este projeto tem como foco criar um jogo onde o jogador coleta recursos, interag
 ## 📸 Preview
 
 ![Demonstração do jogo](./assets/demo.gif)
+
+### 🖼️ Galeria
+
+![Tela inicial](./screenshots/main-menu.png)
+*Menu principal com opções de jogo*
+
+![Combate](./screenshots/battle.png)
+*Sistema de turnos simplificado*
+
+![Loja](./screenshots/shop.png)
+*Interface de comércio com NPCs*
 
 ## 🗺️ Estrutura do Projeto
 ```yaml
@@ -98,13 +115,31 @@ projeto-coleta-recursos-jogo/
 └── README.md # Este arquivo
 ```
 
-## 🕹️ Funcionalidades
+## 🕹️ Funcionalidades Detalhadas
 
-- Movimentação do jogador via React
-- NPCs e inimigos movimentados por threads no backend Python
-- Mapa interativo com obstáculos, guildas e lojas
-- Sincronização em tempo real via chamadas periódicas à API
-- Controle de estado com locks para evitar conflitos no backend
+### Jogador Principal
+- Movimentação em 4 direções (WASD ou setas)
+- Sistema de inventário com capacidade limitada
+- Barra de saúde e atributos (fome, resistência)
+- Habilidades especiais com cooldown
+
+### NPCs Inteligentes
+- Rotinas diárias simuladas (coleta, comércio, descanso)
+- Comportamentos reativos a eventos do jogo
+- Sistema de prioridades para tomada de decisão
+- Personalidades distintas (agressivo, pacífico, comerciante)
+
+### Sistema Econômico
+- Flutuação de preços baseada em oferta/demanda
+- Diferentes guildas com especialidades únicas
+- Upgrades progressivos para equipamentos
+- Sistema de leilão para itens raros
+
+### Combate
+- Inimigos com padrões de ataque distintos
+- Sistema de vantagens/desvantagens por tipo
+- Drops aleatórios com tabelas de loot
+- Chefes periódicos com mecânicas especiais
 
 ## ⚙️ Concor­rência no Backend
 
@@ -136,9 +171,19 @@ python app.py
 cd frontend
 npm init -y
 npm install
-npm start
+
 ```
 - O backend roda em http://localhost:5000 e o frontend em http://localhost:3000.
+
+## 🛠️ Desafios Técnicos e Soluções
+
+| Desafio | Solução Implementada | Código Exemplo |
+|---------|----------------------|----------------|
+| Race conditions nos recursos | Semáforos binários | `threading.Semaphore(1)` |
+| Atualização inconsistente do estado | Padrão Observer | `Publisher-Subscriber` |
+| Deadlocks em interações complexas | Timeout em aquisição de locks | `lock.acquire(timeout=5)` |
+| Latência na comunicação | Cache local no frontend | `useMemo` no React |
+| Pathfinding de NPCs | Algoritmo A* simplificado | `priority_queue` em Python |
 
 ### 👥 Equipe
 
@@ -158,4 +203,9 @@ Projeto desenvolvido por:
 
 ### 🤝 Contato
 
-> 📌 Para qualquer dúvida ou sugestão, [abra uma issue aqui](https://github.com/SEU_REPOSITORIO/issues).
+> 📌 Para qualquer dúvida ou sugestão, [abra uma issue aqui](https://github.com/alineop120/projeto-coleta-recursos-jogo/issues).
+
+---
+
+>**⌨️ com ❤️ por [Aline](https://github.com/alineop120), [Ana Beatriz](https://github.com/Anabamorim) & [Camila](https://github.com/)**  
+_Projeto acadêmico desenvolvido para a disciplina de Sistemas Operacionais - 2025_
