@@ -171,7 +171,7 @@ python app.py
 cd frontend
 npm init -y
 npm install
-
+npm start
 ```
 - O backend roda em http://localhost:5000 e o frontend em http://localhost:3000.
 

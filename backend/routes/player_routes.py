@@ -5,7 +5,7 @@ from core.recursos.recurso_manager import get_recursos
 
 player_bp = Blueprint("player", __name__)
 
-@player_bp.route("/status", methods=["GET"])
+@player_bp.route("/estado", methods=["GET"])
 def status():
     return jsonify(get_player())
 

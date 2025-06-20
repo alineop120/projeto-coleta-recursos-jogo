@@ -17,13 +17,16 @@ app = Flask(__name__)
 CORS(app)
 
 # Registrando Blueprints (rotas)
-app.register_blueprint(player_bp, url_prefix='/player')
-app.register_blueprint(npc_bp, url_prefix='/npc')
-app.register_blueprint(recurso_bp, url_prefix='/recursos')  # corrigido
-app.register_blueprint(loja_guilda_bp, url_prefix='/loja')  # adicionar se necessário
+app.register_blueprint(player_bp)
+app.register_blueprint(npc_bp)
+app.register_blueprint(recurso_bp)
+app.register_blueprint(loja_guilda_bp)
 
 # Inicia threads de NPCs
 threading.Thread(target=iniciar_threads_npc, daemon=True).start()
+
+# Inicia thread de recursos
+threading.Thread(target=iniciar_thread_recursos, daemon=True).start()
 
 if __name__ == '__main__':
     app.run(debug=True)

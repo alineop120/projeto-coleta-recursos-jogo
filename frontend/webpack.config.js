@@ -27,7 +27,14 @@ module.exports = {
     },
     devServer: {
         static: path.resolve(__dirname, 'public'),
-        port: 8080,
+        port: 3000,
         open: true,
-    },
+        proxy: [
+            {
+                context: ['/api'],
+                target: 'http://localhost:5000',
+                changeOrigin: true
+            }
+        ]
+    }
 };
